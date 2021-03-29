@@ -58,7 +58,7 @@ object Accumulator {
        (in,"您的体温正常，祝你旅途愉快")
      }else{
        execption.add(1)
-       (in,s"抱歉你的体温是${in.temperature},你即将被隔离")
+       (in,s"抱歉你555的体温是${in.temperature},你即将被隔离")
      }
 
       }
