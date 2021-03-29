@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<!--
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License. See accompanying LICENSE file.
+-->
+
+<!-- Put site-specific property overrides in this file. -->
+
+<configuration>
+
+
+
+
+
+
+<property> 
+
+
+
+
+
+
+ menode了所以这里使用一个字符串作为value值 -->
+  <!-- 这样一来就可以泛指那个namenode了,这个字符串的名字是可以修改的 只要是mycluster都要修改 -->
+  <name>dfs.nameservices</name> 
+  <value>mycluster</value>
+</property>
+<property>
+  <!-- mycluster是泛指所需要告诉集群到底有几个namenode -->
+  <name>dfs.ha.namenodes.mycluster</name> 
+  <value>nn1,nn2</value>
+</property>
+<property>
+  <!-- mycluster对应的nn1具体是那个节点并指定内部通信端口号 -->
+  <name>dfs.namenode.rpc-address.mycluster.nn1</name>
+  <value>Hadoop2:8020</value>
+</property>
+<property>
+  <!-- mycluster对应的nn2具体是那个节点并指定内部通信端口号 -->
+  <name>dfs.namenode.rpc-address.mycluster.nn2</name>
+  <value>Hadoop3:8020</value>
+</property>
+<property>
+  <!-- mycluster对应的nn1具体是那个节点并指定外部webUI端口号 -->
+  <name>dfs.namenode.http-address.mycluster.nn1</name>
+  <value>Hadoop2:50070</value>
+</property>
+<property>
+ <!-- mycluster对应的nn2具体是那个节点并指定外部webUI端口号 -->
+  <name>dfs.namenode.http-address.mycluster.nn2</name>
+  <value>Hadoop3:50070</value>
+</property>
+
+
+<property>
+  <!-- 指定NameNode的元数据在JournalNode上的存放位置 -->
+  <name>dfs.namenode.shared.edits.dir</name>
+  <value>qjournal://Hadoop2:8485;Hadoop3:8485;Hadoop4:8485/mycluster</value>
+</property>
+
+<property>
+  <!-- 指定JournalNode在本地磁盘存放数据的位置 -->
+  <name>dfs.journalnode.edits.dir</name>
+  <value>/var/software/hadoop/ha/jn</value>
+</property>
+
+<property>
+  <!-- HDFS客户端用来连接集群中Active状态节点的Java类，ConfiguredFailoverProxyProvider是目前唯一可以指定的类 -->
+  <name>dfs.client.failover.proxy.provider.mycluster</name>
+ <value>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider</value>
+</property>
+<property>
+<!-- 执行杀死原来Active NameNode服务的方法 -->
+  <name>dfs.ha.fencing.methods</name>
+  <value>sshfence</value>
+</property>
+
+<property>
+ <!-- ssh免登陆 -->
+  <name>dfs.ha.fencing.ssh.private-key-files</name>
+  <value>/root/.ssh/id_rsa</value>
+</property>
+
+<property>
+   <!-- 开启NameNode故障时自动切换 -->
+   <name>dfs.ha.automatic-failover.enabled</name>
+   <value>true</value>
+ </property>
+ <property>
+  <!--不开启权限验证-->
+  <name>dfs.permissions.enabled</name> 
+  <value>false</value>
+</property> 
+
+</configuration>
